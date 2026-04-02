@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Windows;
 
-public class Enemy : MonoBehaviour
+public class Zombunny : MonoBehaviour
 {
     public enum Status
     {
@@ -23,11 +23,14 @@ public class Enemy : MonoBehaviour
     private Animator EnemyAnimator;
     private Rigidbody enemyRb;
 
+    public ParticleSystem damagedParticle;
+
     public float traceDistance = 4f;
     public float attackDistance = 1f;
     public float attackInterval = 0.5f;
     public float lastAttackTime;
     private float moveAmount;
+    public int health = 200;
 
     private Status currentStatus;
 
@@ -52,6 +55,7 @@ public class Enemy : MonoBehaviour
                     agent.isStopped = true;
                     break;
                 case Status.Die:
+                    agent.isStopped = true;
                     break;
             }
         }
@@ -71,8 +75,7 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(moveAmount);
-        Debug.Log(currentStatus);
+
         switch (currentStatus)
         {
             case Status.Idle:
@@ -88,6 +91,7 @@ public class Enemy : MonoBehaviour
                 UpdateAttack();
                 break;
             case Status.Die:
+                moveAmount = 0f;
                 UpdateDie();
                 break;
         }
@@ -95,6 +99,10 @@ public class Enemy : MonoBehaviour
 
     private void UpdateIdle()
     {
+        if (health < 0)
+        {
+            currentStatus = Status.Die;
+        }
         if (target != null && Vector3.Distance(target.position, transform.position) < traceDistance)
         {
             CurrentStatus = Status.Trace;
@@ -106,6 +114,10 @@ public class Enemy : MonoBehaviour
     }
     private void UpdateTrace()
     {
+        if (health < 0)
+        {
+            currentStatus = Status.Die;
+        }
         //Debug.Log(Vector3.Distance(target.position, transform.position));
         if (target == null || Vector3.Distance(target.position, transform.position) > traceDistance)
         {
@@ -129,6 +141,10 @@ public class Enemy : MonoBehaviour
     }
     private void UpdateAttack()
     {
+        if (health < 0)
+        {
+            currentStatus = Status.Die;
+        }
         if (target == null)
         {
             CurrentStatus = Status.Trace;
@@ -158,10 +174,9 @@ public class Enemy : MonoBehaviour
     }
     private void UpdateDie()
     {
-        throw new NotImplementedException();
+        EnemyAnimator.SetTrigger("Die");
+        Destroy(gameObject, 3f);
     }
-
-
 
     private Transform FindTarget(float radius)
     {
@@ -172,5 +187,27 @@ public class Enemy : MonoBehaviour
         }
         var target = colliders.OrderBy(x => Vector3.Distance(x.transform.position, transform.position)).First();
         return target.transform;
+    }
+
+    public void OnDamage(float damage, Vector3 hitPoint, Vector3 hitDir)
+    {
+        Debug.Log(health);
+        health -= (int)damage;
+
+        if (damagedParticle != null)
+        {
+            if (damagedParticle != null)
+            {
+                damagedParticle.transform.position = hitPoint;
+                damagedParticle.transform.forward = hitDir;
+                damagedParticle.Play();
+            }
+        }
+
+        // 죽음 체크
+        if (health <= 0)
+        {
+            CurrentStatus = Status.Die;
+        }
     }
 }

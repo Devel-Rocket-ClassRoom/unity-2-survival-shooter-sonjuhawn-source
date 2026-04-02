@@ -63,10 +63,12 @@ public class Gun : MonoBehaviour
         Vector3 hitPosition = Vector3.zero;
 
         Ray ray = new Ray(fireTransform.position, fireTransform.forward);
+
         if (Physics.Raycast(ray, out RaycastHit hit, fireDistance))
         {
             hitPosition = hit.point;
 
+            Debug.Log("Hit: " + hit.collider.name);
             var target = hit.collider.GetComponent<IDamageable>();
             if (target != null)
             {

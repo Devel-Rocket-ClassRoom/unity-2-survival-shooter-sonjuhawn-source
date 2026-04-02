@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Windows;
 
-public class Zombunny : MonoBehaviour
+public class Zombunny : MonoBehaviour, IDamageable
 {
     public enum Status
     {
@@ -30,7 +30,9 @@ public class Zombunny : MonoBehaviour
     public float attackInterval = 0.5f;
     public float lastAttackTime;
     private float moveAmount;
+
     public int health = 200;
+    public bool isDying = false;
 
     private Status currentStatus;
 
@@ -174,8 +176,13 @@ public class Zombunny : MonoBehaviour
     }
     private void UpdateDie()
     {
-        EnemyAnimator.SetTrigger("Die");
-        Destroy(gameObject, 3f);
+        if (!isDying)
+        {
+            isDying = true;
+            EnemyAnimator.SetTrigger("Die");
+            Destroy(gameObject, 3f);
+        }
+        
     }
 
     private Transform FindTarget(float radius)
@@ -206,5 +213,10 @@ public class Zombunny : MonoBehaviour
         {
             CurrentStatus = Status.Die;
         }
+    }
+
+    public void StartSinking()
+    {
+        // 그냥 빈 함수라도 경고 사라짐
     }
 }

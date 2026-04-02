@@ -1106,7 +1106,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e05637fa44422904bb9e08391f7386fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerShooter
-  gun: {fileID: 0}
+  gun: {fileID: 565260475}
   gunPivot: {fileID: 1299501548}
 --- !u!82 &1688863820
 AudioSource:

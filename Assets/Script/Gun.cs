@@ -88,7 +88,6 @@ public class Gun : MonoBehaviour
         coShot = StartCoroutine(CoShotEffect(hitPosition));
 
         magAmmo--;
-        Debug.Log(magAmmo);
         if (magAmmo < 0)
         {
             State = States.Empty;
@@ -136,7 +135,7 @@ public class Gun : MonoBehaviour
         }
         magAmmo += ammoToFill;
         ammoRemain -= ammoToFill;
-        Debug.Log(magAmmo);
+        //Debug.Log(magAmmo);
         State = States.Ready;
     }
 }

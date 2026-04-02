@@ -196,12 +196,9 @@ public class Zombunny : MonoBehaviour
 
         if (damagedParticle != null)
         {
-            if (damagedParticle != null)
-            {
-                damagedParticle.transform.position = hitPoint;
-                damagedParticle.transform.forward = hitDir;
-                damagedParticle.Play();
-            }
+            damagedParticle.transform.position = hitPoint;
+            damagedParticle.transform.forward = hitDir;
+            damagedParticle.Play();
         }
 
         // 죽음 체크

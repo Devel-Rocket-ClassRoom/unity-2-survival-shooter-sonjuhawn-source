@@ -8,8 +8,6 @@ public class PlayerShooter : MonoBehaviour
 
     private PlayerInput playerInput;
 
-    private float handWeight = 1f;
-
     private void Awake()
     {
         playerInput = GetComponent<PlayerInput>();

@@ -29,7 +29,10 @@ public class Gun : MonoBehaviour
     private Coroutine coShot;
     private Coroutine coReload;
 
-
+    private void Awake()
+    {
+        
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

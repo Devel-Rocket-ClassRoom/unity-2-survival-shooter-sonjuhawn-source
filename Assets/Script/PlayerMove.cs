@@ -5,6 +5,7 @@ public class PlayerMove : MonoBehaviour
     private PlayerInput input;
     private Rigidbody rb;
     private Camera cam;
+    private Animator playerAnimator;
 
     public float speed = 5;
 
@@ -14,16 +15,20 @@ public class PlayerMove : MonoBehaviour
     {
         input = GetComponent<PlayerInput>();
         rb = GetComponent<Rigidbody>();
+        playerAnimator = GetComponent<Animator>();
         cam = Camera.main;
     }
 
     // Update is called once per frame
     private void FixedUpdate()
     {
+        float moveAmount = new Vector2(input.MoveX, input.MoveZ).magnitude;
+        playerAnimator.SetFloat("Move", moveAmount);
+
         Vector3 direction = new Vector3(input.MoveZ, 0, input.MoveX);
         direction = Vector3.ClampMagnitude(direction, 1f);
         rb.linearVelocity = direction * speed;
-
+      
         LookAtMouse();
     }
 

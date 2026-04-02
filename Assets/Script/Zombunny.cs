@@ -169,8 +169,9 @@ public class Zombunny : MonoBehaviour, IDamageable
             var damagable = target.GetComponent<IDamageable>();
             if (damagable != null)
             {
-                damagable.OnDamage(10f, transform.position, -transform.forward);
+                damagable.OnDamage(5f, transform.position, -transform.forward);
             }
+            
         }
         EnemyAnimator.SetFloat("Move", moveAmount);
     }

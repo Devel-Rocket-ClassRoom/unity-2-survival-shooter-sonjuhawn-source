@@ -8,6 +8,8 @@ public class PlayerShooter : MonoBehaviour
 
     private PlayerInput playerInput;
 
+
+
     private void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
@@ -24,4 +26,6 @@ public class PlayerShooter : MonoBehaviour
             gun.Reload();
         }
     }
+
+    
 }

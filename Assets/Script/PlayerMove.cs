@@ -1,21 +1,27 @@
 using UnityEngine;
 
-public class PlayerMove : MonoBehaviour
+public class PlayerMove : MonoBehaviour , IDamageable
 {
     private PlayerInput input;
     private Rigidbody rb;
     private Camera cam;
     private Animator playerAnimator;
+    private Collider playerCollider;
+    
 
+    public ParticleSystem damagedParticle;
     public float speed = 5;
+    public int health = 100;
+    public  bool isDead { get; private set; } = false;
 
-   
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         input = GetComponent<PlayerInput>();
         rb = GetComponent<Rigidbody>();
         playerAnimator = GetComponent<Animator>();
+        playerCollider = GetComponent<CapsuleCollider>();
         cam = Camera.main;
     }
 
@@ -30,6 +36,12 @@ public class PlayerMove : MonoBehaviour
         rb.linearVelocity = direction * speed;
       
         LookAtMouse();
+
+        if (isDead)
+        {
+            return;
+        }
+
     }
 
     void LookAtMouse()
@@ -49,5 +61,24 @@ public class PlayerMove : MonoBehaviour
 
             transform.LookAt(pointToLook);
         }
+    }
+
+    public void OnDamage(float damage, Vector3 hitPoint, Vector3 hitNormal)
+    {
+        health -= (int)damage;
+        Debug.Log(health);
+        damagedParticle.transform.position = hitPoint;
+        damagedParticle.transform.forward = hitNormal;
+        damagedParticle.Play();
+        if (health < 0)
+        {
+            Death();
+        }
+    }
+
+    private void Death()
+    {
+        isDead = true;
+        playerAnimator.SetTrigger("Death");
     }
 }

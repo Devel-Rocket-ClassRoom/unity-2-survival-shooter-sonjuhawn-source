@@ -91,5 +91,9 @@ public class PlayerMove : MonoBehaviour , IDamageable
         }
         isDead = true;
         playerAnimator.SetTrigger("Death");
+        rb.linearVelocity = Vector3.zero;
+        playerCollider.enabled = false;
+        rb.isKinematic = true;
+
     }
 }

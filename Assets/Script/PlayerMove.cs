@@ -65,19 +65,30 @@ public class PlayerMove : MonoBehaviour , IDamageable
 
     public void OnDamage(float damage, Vector3 hitPoint, Vector3 hitNormal)
     {
+        if(isDead) 
+        {
+            return; 
+        }
+        if (health < 0)
+        {
+            Death();
+            return;
+        }
+        
         health -= (int)damage;
         Debug.Log(health);
         damagedParticle.transform.position = hitPoint;
         damagedParticle.transform.forward = hitNormal;
         damagedParticle.Play();
-        if (health < 0)
-        {
-            Death();
-        }
+        
     }
 
     private void Death()
     {
+        if (isDead) 
+        { 
+            return; 
+        }
         isDead = true;
         playerAnimator.SetTrigger("Death");
     }

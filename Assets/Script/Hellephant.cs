@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Windows;
 
-public class Zombunny : Enemy, IDamageable
+public class Hellephant : Enemy, IDamageable
 {
     public enum Status
     {
